@@ -1,3 +1,9 @@
+/*
+Bài 1. Kiểm tra và phân tích dữ liệu log cuộc gọi thoại
+Một nhà mạng muốn thực hiện truy vấn dữ liệu log lịch sử cuộc gọi trong ngày, dữ liệu log này được
+format dạng
+*/
+
 #include <bits/stdc++.h>
 using namespace std;
 
