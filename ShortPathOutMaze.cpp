@@ -22,7 +22,7 @@ int shortPath(int a[][999], int n, int m, int r, int c)
 {
     queue<point> q;
     point p;
-    p.r = r; p.c = c; p.step = 0;
+    p.r = r; p.c = c; p.step = 1;
     q.push(p);
     set<pair<int,int>> st;
     st.insert({r, c});
