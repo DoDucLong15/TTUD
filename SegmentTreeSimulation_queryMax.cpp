@@ -36,16 +36,14 @@ int main()
     int temp, k1, k2, n, m;
     string request, num1, num2, s;
 
-    cin >> n;
-    getchar();
+    scanf("%d", &n); getchar();
     for(int i=1; i<=n; i++) {
-        cin >> temp; getchar();
+        scanf("%d", &temp); getchar();
         UpdateFromNode(1, 1, n, i, temp);
     }
 
     //request
-    cin >> m;
-    getchar();
+    scanf("%d", &m); getchar();
     for(int i=0; i<m; i++) {
         getline(cin, s);
         stringstream ss(s);
