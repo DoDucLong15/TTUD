@@ -9,12 +9,6 @@ map<int, vector<int>> object; //{giao vien, danh sach mon hoc}
 vector<int> size_object;
 int res = INT_MAX, max_object = INT_MIN;
 
-//void build()
-//{
-//    for(int i=0; i<m; i++)
-//        for(int j=1; j<=n; j++) v[i][j] = 0;
-//}
-
 bool check(int i, int t)
 {
     if(v[i][t] != 1) return false;

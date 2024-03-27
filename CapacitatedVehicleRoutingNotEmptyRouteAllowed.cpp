@@ -2,9 +2,17 @@
 using namespace std;
 
 const int MAX = 20;
-int n, K, Q, segments=0, nbR=0;
-int d[MAX], c[MAX][MAX], cmin = INT_MAX, y[MAX], x[MAX], f = 0, f_min = INT_MAX, load[MAX];
+int n, K, Q, c[MAX][MAX];
+int segments = 0, y[MAX], x[MAX], load[MAX], d[MAX];
+int cmin = INT_MAX, f = 0, f_min = INT_MAX, nbR = 0;
 bool visisted[MAX];
+
+bool check_Y(int v, int k)
+{
+    if(load[k] + d[v] > Q) return false;
+    if(visisted[v]) return false;
+    return true;
+}
 
 bool check_X(int v, int k)
 {
@@ -13,17 +21,9 @@ bool check_X(int v, int k)
     return true;
 }
 
-bool check_Y(int v, int k)
-{
-    if(v==0) return true;
-    if(visisted[v]) return false;
-    if(load[k] + d[v] > Q) return false;
-    return true;
-}
-
 void GhiNhan()
 {
-    f_min = min(f, f_min);
+    f_min = min(f_min, f);
 }
 
 void Try_X(int s, int k)
@@ -33,20 +33,20 @@ void Try_X(int s, int k)
         return;
     }
     for(int v=0; v<=n; v++) {
-        if(check_X(v,k)) {
+        if(check_X(v, k)) {
             x[s] = v;
             visisted[v] = true;
             load[k] += d[v];
             f += c[s][v];
             segments++;
             if(v > 0) {
-                if(f + (n + nbR - segments)*cmin < f_min) Try_X(v, k);
+                if(f + (n+nbR - segments)*cmin < f_min) Try_X(v, k);
             }
             else {
-                if(k < K) {
-                    if(f + (n + nbR - segments)*cmin < f_min) Try_X(y[k+1], k+1);
+                if(k == K) {
+                    if(segments == n + nbR) GhiNhan();
                 }
-                else if(segments == n+nbR) GhiNhan();
+                else if(f + (n+nbR - segments)*cmin < f_min) Try_X(y[k+1], k+1);
             }
             visisted[v] = false;
             load[k] -= d[v];
@@ -58,12 +58,12 @@ void Try_X(int s, int k)
 
 void Try_Y(int k)
 {
-    int s = 0;
+    int s = 1;
     if(y[k-1] > 0) s = y[k-1] + 1;
     for(int v=s; v<=n; v++) {
         if(check_Y(v, k)) {
             y[k] = v;
-            if(v > 0) segments++;
+            segments++;
             visisted[v] = true;
             load[k] += d[v];
             f += c[0][v];
@@ -72,7 +72,7 @@ void Try_Y(int k)
                 nbR = segments;
                 Try_X(y[1], 1);
             }
-            if(v > 0) segments--;
+            segments--;
             visisted[v] = false;
             load[k] -= d[v];
             f -= c[0][v];
@@ -96,3 +96,4 @@ int main()
     cout << f_min << "\n";
     return 0;
 }
+
