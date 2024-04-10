@@ -3,7 +3,7 @@ using namespace std;
 
 bool check(int mid, int arr[], int n, int k) {
     int pos = arr[0];
-    int elements = 1;
+    int elements = 1; //do chua arr[0] roi
     for (int i = 1; i < n; i++) {
         if (arr[i] - pos >= mid) {
             pos = arr[i];
