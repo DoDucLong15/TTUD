@@ -26,16 +26,13 @@ bool check(int n)
 
 void GhiNhan()
 {
-    f += c[road[n]][road[1]];
-    if(f < f_min) {
-        for(int i=1; i<=n; i++) result[i] = road[i];
-        f_min = f;
-    }
+    int d = f + c[road[n]][road[1]];
+    f_min = min(f_min, d);
 }
 
 void Try(int k)
 {
-    for(int i=1; i<=n; i++) {
+    for(int i=2; i<=n; i++) {
         if(check(i)) {
             road[k] = i;
             f += c[road[k-1]][i];
@@ -58,14 +55,11 @@ int main()
                 c_min = min(c_min, c[i][j]);
             }
         }
-    for(int i=1; i<=n; i++) {
-        init();
-        road[1] = i;
-        Try(2);
-    }
-    cout << n << "\n";
-    for(int i=1; i<=n; i++) cout << result[i] << " ";
-    cout << "\n";
+    init();
+    road[1] = 1;
+    marked[1] = true;
+    Try(2);
+    cout << f_min << "\n";
 
     return 0;
 }

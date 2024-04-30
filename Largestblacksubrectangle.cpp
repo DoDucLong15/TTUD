@@ -1,58 +1,69 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-int max_rectangle(vector<vector<int>>& matrix) {
-    if (matrix.empty() || matrix[0].empty()) {
-        return 0;
-    }
+const int MAX = 1005;
+int n, m, arr[MAX][MAX];
 
-    int n = matrix.size();
-    int m = matrix[0].size();
-
-    vector<int> heights(m + 1, 0);
-    int max_area = 0;
-
-    for (int i = 0; i < n; ++i) {
-        for (int j = 0; j < m; ++j) {
-            heights[j] = matrix[i][j] == 1 ? heights[j] + 1 : 0;
+int largest_rectangular_his(vector<int> a, int n)
+{
+    vector<int> next(n, n);
+    vector<int> prev(n, -1);
+    //next samller
+    stack<int> st;
+    st.push(n);
+    for(int i=n-1; i>=0; i--) {
+        while(st.top() != n && a[st.top()] >= a[i]) {
+            st.pop();
         }
-
-        stack<int> s;
-        s.push(-1);
-
-        for (int j = 0; j <= m; ++j) {
-            while (s.top() != -1 && heights[j] < heights[s.top()]) {
-                int h = heights[s.top()];
-                s.pop();
-                int w = j - 1 - s.top();
-                max_area = max(max_area, h * w);
-            }
-            s.push(j);
-        }
+        next[i] = st.top();
+        st.push(i);
     }
-
+    //last smaller
+    stack<int> s;
+    s.push(-1);
+    for(int i=0; i<n; i++) {
+        while(s.top() != -1 && a[s.top()] >= a[i]) {
+            s.pop();
+        }
+        prev[i] = s.top();
+        s.push(i);
+    }
+    int max_area = INT_MIN;
+    for(int i=0; i<n; i++) {
+        max_area = max(max_area, a[i] * (next[i]-prev[i]-1));
+    }
     return max_area;
 }
 
-// Test the function
-int main() {
-    ios_base::sync_with_stdio(false);
-    cin.tie(0);
-    cout.tie(0);
-
-    vector<vector<int>> matrix;
-    int n, m, a;
-    scanf("%d%d", &n, &m);
-    for(int i=0; i<n; i++) {
+int max_subrectangle()
+{
+    vector<vector<int> > v;
+    vector<int> _temp;
+    for(int i=0; i<m; i++) {
+        _temp.push_back(arr[0][i]);
+    }
+    v.push_back(_temp);
+    int maxArea = largest_rectangular_his(_temp, m);
+    for(int i=1; i<n; i++) {
         vector<int> temp;
         for(int j=0; j<m; j++) {
-            scanf("%d", &a);
-            temp.push_back(a);
+            if(arr[i][j]) temp.push_back(v[i-1][j] + arr[i][j]);
+            else temp.push_back(0);
         }
-        matrix.push_back(temp);
+        v.push_back(temp);
+        maxArea = max(maxArea, largest_rectangular_his(temp, m));
     }
-
-    cout << max_rectangle(matrix) << endl;
-    return 0;
+    return maxArea;
 }
 
+int main()
+{
+    scanf("%d%d", &n, &m);
+    for(int i=0; i<n; i++)
+        for(int j=0; j<m; j++) {
+            scanf("%d", &arr[i][j]);
+        }
+    cout << max_subrectangle() << "\n";
+
+    return 0;
+}

@@ -20,13 +20,13 @@ int convertTime(string s){
 
 int main() {
 	ios_base::sync_with_stdio(false);
-	
+
 	int num_valid_phone = 0, sum_phone = 0;
 	map<string, int> num_from_phone;
 	map<string, int> sum_time_phone;
 	string s;
 	bool check = true;
-	
+
 	getline(cin, s);
 	while(s != "#") {
 		string from_number, to_number, from_time, end_time, date, call;
@@ -38,10 +38,10 @@ int main() {
 		}
 		num_from_phone[from_number]++;
 		sum_time_phone[from_number] += convertTime(end_time) - convertTime(from_time);
-		
+
 		getline(cin, s);
 	}
-	
+
 	getline(cin, s);
 	while(s != "#") {
 		string command, phone;
@@ -54,9 +54,9 @@ int main() {
 		else if(command == "?number_calls_from") cout << num_from_phone[phone] << endl;
 		else if(command == "?number_total_calls") cout << sum_phone << endl;
 		else if(command == "?count_time_calls_from") cout << sum_time_phone[phone] << endl;
-		
+
 		getline(cin, s);
 	}
-	
+
 	return 0;
 }
