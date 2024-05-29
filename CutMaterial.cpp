@@ -1,39 +1,26 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-const int MAX = 15;
 int H, W, n;
-vector<pair<int,int> > v;
-bool mark[MAX][MAX];
+int h[15], w[15];
+bool mark[15][15];
 
-bool check(int vo, int vx, int vy, int k)
+bool check(int i, int j, int height, int width)
 {
-    int hk = v[k].first;
-    int wk = v[k].second;
-    if(vo == 1) {
-        hk = v[k].second;
-        wk = v[k].first;
-    }
-    if(vx + wk > W) return false;
-    if(vy + hk > H) return false;
-    for(int i=vx; i<=vx+wk-1; i++)
-        for(int j=vy; j<=vy+hk-1; j++) {
-            if(mark[i][j]) return false;
+    if(i + height > H) return false;
+    if(j + width > W) return false;
+    for(int u=i; u<=i+height-1; u++)
+        for(int v=j; v<=j+width-1; v++) {
+            if(mark[u][v]) return false;
         }
     return true;
 }
 
-void doMark(int vo, int vx, int vy, int k, bool value)
+void doMark(int i, int j, int height, int width, bool value)
 {
-    int hk = v[k].first;
-    int wk = v[k].second;
-    if(vo == 1) {
-        hk = v[k].second;
-        wk = v[k].first;
-    }
-    for(int i=vx; i<=vx+wk-1; i++)
-        for(int j=vy; j<=vy+hk-1; j++) {
-            mark[i][j] = value;
+    for(int u=i; u<=i+height-1; u++)
+        for(int v=j; v<=j+width-1; v++) {
+            mark[u][v] = value;
         }
 }
 
@@ -45,20 +32,21 @@ void GhiNhan()
 
 void Try(int k)
 {
+    //manh ghep thu k
     for(int vo=0; vo<=1; vo++) {
-        int hk = v[k].first;
-        int wk = v[k].second;
-        if(vo == 1) {
-            hk = v[k].second;
-            wk = v[k].first;
+        //vo=1 la xoay 90 do
+        int height=h[k], width=w[k];
+        if(vo==1) {
+            height = w[k];
+            width = h[k];
         }
-        for(int vx=0; vx<=W-wk; vx++)
-            for(int vy=0; vy<=H-hk; vy++) {
-                if(check(vo, vx, vy, k)) {
-                    doMark(vo, vx, vy, k, true);
+        for(int i=0; i<=H-height; i++)
+            for(int j=0; j<=W-width; j++) {
+                if(check(i,j,height,width)) {
+                    doMark(i, j, height, width, true);
                     if(k == (n-1)) GhiNhan();
                     else Try(k+1);
-                    doMark(vo, vx, vy, k, false);
+                    doMark(i, j, height, width, false);
                 }
             }
     }
@@ -66,14 +54,10 @@ void Try(int k)
 
 int main()
 {
-    scanf("%d%d", &H, &W);
-    scanf("%d", &n);
-    int p, q;
+    scanf("%d%d%d", &H, &W, &n);
     for(int i=0; i<n; i++) {
-        scanf("%d%d", &p, &q);
-        v.push_back({p, q});
+        scanf("%d%d", &h[i], &w[i]);
     }
-
     Try(0);
     cout << "0\n";
 

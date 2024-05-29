@@ -1,12 +1,13 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-const int MAX = 100;
+const int MAX = 1e4 + 5;;
 int Num[MAX], Low[MAX];
 set<int> adj[MAX];
 int n, m; // n dinh, m canh
 int cur_num = 1;
 stack<int> st;
+int res = 0;
 
 void DFS(int u, int pu)
 {
@@ -26,10 +27,11 @@ void DFS(int u, int pu)
         while(1) {
             int x = st.top();
             st.pop();
-            printf("%d ", x);
+//            printf("%d ", x);
             if(x == u) break;
         }
-        printf("\n");
+        res++;
+//        printf("\n");
     }
 }
 
@@ -47,6 +49,7 @@ int main()
     for(int i=1; i<=n; i++) {
         if(Num[i] == -1) DFS(i, -1);
     }
+    cout << res << "\n";
 
     return 0;
 }

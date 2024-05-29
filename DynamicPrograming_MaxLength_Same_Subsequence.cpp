@@ -19,24 +19,6 @@ int LCS(int i, int j)
     return res;
 }
 
-void Trace_recursive(int i, int j)
-{
-    if(i == 0 || j == 0) return;
-    if(x[i] == y[j] && mem[i][j] == mem[i-1][j-1] + 1) {
-        Trace_recursive(i-1, j-1);
-        cout << x[i] << " ";
-        return;
-    }
-    if(mem[i][j] == mem[i-1][j]) {
-        Trace_recursive(i-1, j);
-        return;
-    }
-    if(mem[i][j] == mem[i][j-1]) {
-        Trace_recursive(i, j-1);
-        return;
-    }
-}
-
 int main()
 {
     memset(mem, -1, sizeof(mem));
@@ -49,7 +31,6 @@ int main()
         y[i] = i;
     }
     cout << LCS(n, m) << "\n";
-    Trace_recursive(n,m);
 
     return 0;
 }
