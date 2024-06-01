@@ -8,7 +8,7 @@ int largest_rectangular_his(vector<int> a, int n)
 {
     vector<int> next(n, n);
     vector<int> prev(n, -1);
-    //next samller
+    //next samller - tim cot gan nhat ma nho hon ve phia ben phai
     stack<int> st;
     st.push(n);
     for(int i=n-1; i>=0; i--) {
@@ -18,7 +18,7 @@ int largest_rectangular_his(vector<int> a, int n)
         next[i] = st.top();
         st.push(i);
     }
-    //last smaller
+    //last smaller - tim cot gan nhat ma nho hon ve phia ben tay trai
     stack<int> s;
     s.push(-1);
     for(int i=0; i<n; i++) {
