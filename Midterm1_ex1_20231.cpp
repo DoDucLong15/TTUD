@@ -31,7 +31,7 @@ int main()
         }
     }
     if(i == len) {
-        if(cnt == st.size()) cout << "NOT_CORRECT\n";
+        if(cnt != (st.size()-1)) cout << "NOT_CORRECT\n";
         else {
             int result = 0;
             while(!st.empty()) {
